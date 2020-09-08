@@ -6,6 +6,7 @@ import methods from "./methods";
 export const methodMapping: MethodMapping = {
   login: methods.login,
   auth_login_with_address: methods.auth_login_with_address,
+  auth_required_method: methods.auth_required_method,
 };
 
 export default methodMapping;

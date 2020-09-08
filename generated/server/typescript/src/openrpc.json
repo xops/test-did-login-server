@@ -69,6 +69,26 @@
           }
         }
       ]
+    },
+    {
+      "name": "auth_required_method",
+      "description": "a route that requires a user to have recieved a JWT token from the login method",
+      "params": [
+        {
+          "name": "JWTToken",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "authRequiredMethodResult",
+        "description": "Data returned from the authentication required method",
+        "schema": {
+          "type": "string",
+          "description": "random string data returned from auth required method"
+        }
+      }
     }
   ],
   "components": {
