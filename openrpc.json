@@ -94,6 +94,7 @@
   "components": {
     "schemas": {
       "DIDTokenClaim": {
+        "title": "DIDTokenClaim",
         "type": "object",
         "properties": {
           "iat": {

@@ -1,19 +1,25 @@
-import { Login } from "../generated-typings";
+import { Login, DIDTokenClaim } from "../generated-typings";
 import EthCrypto from "eth-crypto";
 import * as ethUtil from "ethereumjs-util";
 import jwt from "jsonwebtoken";
 import { recoverPublicKeyFromSig } from "@etclabscore/signatory-core/build/src/lib/sign";
 import { stringToHex } from "@etclabscore/eserialize";
 import { getSecret } from "../secret";
+import { JSONRPCError } from "@open-rpc/server-js";
+import { getUserByAddress, ClaimPair, removeUserClaim } from "../users";
+
+const nbfBuffer = 10000;
 
 const login: Login = async (DIDTokenString) => {
-  const buff = Buffer.from(DIDTokenString, "base64");
-  const decoded = buff.toString();
-  const [proof, claim] = JSON.parse(decoded);
-  const parsedClaim = JSON.parse(claim);
-  const add = parsedClaim.iss.split("did:ethr:")[1];
-
   try {
+    const buff = Buffer.from(DIDTokenString, "base64");
+    const decoded = buff.toString();
+    const [proof, claim] = JSON.parse(decoded);
+    const parsedClaim: DIDTokenClaim = JSON.parse(claim);
+    if (!parsedClaim.iss) {
+      throw new JSONRPCError("An error occured, Not logged in", 2399);
+    }
+    const add = parsedClaim.iss.split("did:ethr:")[1];
     const c = Buffer.from(claim);
     let signerPubkey;
     try {
@@ -22,24 +28,52 @@ const login: Login = async (DIDTokenString) => {
       console.log(e);
     }
     if (!signerPubkey) {
-      throw new Error("no pubkey found");
+      throw new JSONRPCError("no pubkey found", 3399);
     }
+
     const address = "0x" + ethUtil.keccak256(signerPubkey).slice(-20).toString("hex");
 
     if (add === ethUtil.toChecksumAddress(address)) {
+      if (!parsedClaim.nbf) {
+        throw new JSONRPCError("An error occured, no nbf", 2399);
+      }
+
+      if ((parsedClaim.nbf - nbfBuffer) > Math.floor(Date.now() / 1000)) {
+        throw new JSONRPCError("Claim Expired", 2600);
+      }
+
+      if (!parsedClaim.iat) {
+        throw new JSONRPCError("An error occured, no iat", 2399);
+      }
+
+      const user = getUserByAddress(add);
+      if (!user) {
+        throw new JSONRPCError("No User found", 2700);
+      }
+      const exists = user.claimPairs.find((claimPair: ClaimPair) => {
+        return JSON.stringify(claimPair.claim) === JSON.stringify(parsedClaim);
+      });
+
+      if (!exists) {
+        throw new JSONRPCError("Invalid Claim. Request a Claim First", 2500);
+      }
+
+      // one time use
+      removeUserClaim(address, claim);
+
       const accessToken = jwt.sign({
-        address,
+        address: add,
         did: {
           proof,
           claim: parsedClaim
         }
-      }, getSecret());
+      }, getSecret(), {expiresIn: "365d"});
       return Promise.resolve(accessToken);
     } else {
-      throw new Error("An error occured, Not logged in");
+      throw new JSONRPCError("An error occured, Not logged in", 2399);
     }
   } catch (e) {
-    throw new Error("An error occured, Not logged in");
+    throw new JSONRPCError("An error occured, Not logged in", 2399, { message: e.message });
   }
 };
 

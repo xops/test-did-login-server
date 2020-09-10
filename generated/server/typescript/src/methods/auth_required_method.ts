@@ -6,7 +6,9 @@ import { DH_CHECK_P_NOT_PRIME } from "constants";
 
 const auth_required_method: AuthRequiredMethod = async (JWTToken) => {
   try {
-    const decoded: any = jwt.verify(JWTToken, getSecret());
+    const decoded: any = jwt.verify(JWTToken, getSecret(), {
+      maxAge: "365d"
+    });
     if (decoded) {
       return "logged in with: " + decoded.address;
     } else {

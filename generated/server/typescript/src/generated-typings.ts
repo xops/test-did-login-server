@@ -54,7 +54,7 @@ export type Address = string;
  *
  */
 export type StringAhqTyMBz = string;
-export interface ObjectOfTokenIDSubjectNotValidBeforeIssuerIssuedAtExpirationAudienceAdditionalNrmu0CZz {
+export interface DIDTokenClaim {
   iat?: IssuedAt;
   ext?: Expiration;
   nbf?: NotValidBefore;
@@ -76,7 +76,7 @@ export type StringYQEGSIt6 = string;
  * Generated! Represents an alias to any of the provided schemas
  *
  */
-export type AnyOfStringDoaGddGAAddressStringDoaGddGAStringAhqTyMBzObjectOfTokenIDSubjectNotValidBeforeIssuerIssuedAtExpirationAudienceAdditionalNrmu0CZzStringYQEGSIt6 = StringDoaGddGA | Address | StringAhqTyMBz | ObjectOfTokenIDSubjectNotValidBeforeIssuerIssuedAtExpirationAudienceAdditionalNrmu0CZz | StringYQEGSIt6;
+export type AnyOfStringDoaGddGAAddressStringDoaGddGAStringAhqTyMBzDIDTokenClaimStringYQEGSIt6 = StringDoaGddGA | Address | StringAhqTyMBz | DIDTokenClaim | StringYQEGSIt6;
 export type Login = (DIDTokenString: StringDoaGddGA) => Promise<StringAhqTyMBz>;
-export type AuthLoginWithAddress = (address: Address) => Promise<ObjectOfTokenIDSubjectNotValidBeforeIssuerIssuedAtExpirationAudienceAdditionalNrmu0CZz>;
+export type AuthLoginWithAddress = (address: Address) => Promise<DIDTokenClaim>;
 export type AuthRequiredMethod = (JWTToken: StringDoaGddGA) => Promise<StringYQEGSIt6>;
