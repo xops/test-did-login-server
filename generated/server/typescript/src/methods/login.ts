@@ -59,7 +59,7 @@ const login: Login = async (DIDTokenString) => {
       }
 
       // one time use
-      removeUserClaim(address, claim);
+      removeUserClaim(add, parsedClaim);
 
       const accessToken = jwt.sign({
         address: add,
