@@ -62,7 +62,7 @@ const login: Login = async (DIDTokenString) => {
 
       console.log(JSON.stringify({
         address: add,
-        claim: parsedClaim
+        claim: parsedClaim,
       }, null, 4));
 
       // one time use
@@ -74,8 +74,8 @@ const login: Login = async (DIDTokenString) => {
         address: add,
         did: {
           proof,
-          claim: parsedClaim
-        }
+          claim: parsedClaim,
+        },
       }, getSecret(), {expiresIn: "365d"});
       return Promise.resolve(accessToken);
     } else {

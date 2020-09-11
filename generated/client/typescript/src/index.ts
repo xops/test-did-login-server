@@ -95,12 +95,12 @@ export interface Options {
     port: number;
     path?: string;
     protocol?: string;
-  },
+  };
 }
 
 export class AuthenticationWithDID {
+  public static openrpcDocument: OpenRPC = {"openrpc": "1.2.4", "info": {"title": "Authentication with DID", "version": "1.0.0"}, "methods": [{"name": "login", "description": "Logs in the user with a DID token", "params": [{"name": "DIDTokenString", "schema": {"type": "string", "title": "string_doaGddGA"}}], "result": {"name": "JWTToken", "description": "JWT Token for the user to use as a session.", "schema": {"type": "string", "description": "JWT Token"}}}, {"name": "auth_login_with_address", "description": "Prompts the user to login by signing a claim with their address", "params": [{"name": "address", "description": "address the user claims to own", "schema": {"pattern": "^0x[a-fA-F\\d]{40}$", "title": "address", "type": "string"}}], "result": {"name": "claim", "description": "the claim for the user to sign", "schema": {"title": "DIDTokenClaim", "type": "object", "properties": {"iat": {"title": "IssuedAt", "description": "Issued at timestamp", "type": "number"}, "ext": {"title": "Expiration", "description": "Expiration timestamp", "type": "number"}, "nbf": {"title": "NotValidBefore", "description": "Not valid before timestamp", "type": "number"}, "iss": {"title": "Issuer", "description": "Issuer - Decentralized Identifier: https://w3c-ccg.github.io/did-primer/#the-format-of-a-did", "type": "string", "format": "^did:"}, "sub": {"title": "Subject", "description": "Subject of the request, could be a nonce or uuid provided by the server.", "type": "string", "format": "^did:"}, "aud": {"title": "Audience", "description": "Audience", "type": "string", "format": "^did:"}, "add": {"title": "Additional", "description": "Optiona, additional signed data", "type": "string"}, "tid": {"title": "TokenID", "description": "DID TokenID", "type": "string"}}}}, "examples": [{"name": "exampleAuthLoginWithAddress", "params": [{"name": "address", "value": "0xA4d1e7f6642Df0330890c70372F3516797f11f2C"}], "result": {"name": "result", "value": {"iat": 1599245366, "ext": 1599255366, "iss": "did:ethr:0xA4d1e7f6642Df0330890c70372F3516797f11f2C", "sub": "did:sig.tools:login", "aud": "did:sig.tools:8066696d-7fb1-4a45-91a6-d43890c5c131", "nbf": 1599245366, "tid": "a1997f88-71ca-4d96-b220-df372b65b07b"}}}]}, {"name": "auth_required_method", "description": "a route that requires a user to have recieved a JWT token from the login method", "params": [{"name": "JWTToken", "schema": {"type": "string", "title": "string_doaGddGA"}}], "result": {"name": "authRequiredMethodResult", "description": "Data returned from the authentication required method", "schema": {"type": "string", "description": "random string data returned from auth required method"}}}], "components": {"schemas": {"DIDTokenClaim": {"title": "DIDTokenClaim", "type": "object", "properties": {"iat": {"title": "IssuedAt", "description": "Issued at timestamp", "type": "number"}, "ext": {"title": "Expiration", "description": "Expiration timestamp", "type": "number"}, "nbf": {"title": "NotValidBefore", "description": "Not valid before timestamp", "type": "number"}, "iss": {"title": "Issuer", "description": "Issuer - Decentralized Identifier: https://w3c-ccg.github.io/did-primer/#the-format-of-a-did", "type": "string", "format": "^did:"}, "sub": {"title": "Subject", "description": "Subject of the request, could be a nonce or uuid provided by the server.", "type": "string", "format": "^did:"}, "aud": {"title": "Audience", "description": "Audience", "type": "string", "format": "^did:"}, "add": {"title": "Additional", "description": "Optiona, additional signed data", "type": "string"}, "tid": {"title": "TokenID", "description": "DID TokenID", "type": "string"}}}}}} ;
   public rpc: Client;
-  public static openrpcDocument: OpenRPC = {"openrpc":"1.2.4","info":{"title":"Authentication with DID","version":"1.0.0"},"methods":[{"name":"login","description":"Logs in the user with a DID token","params":[{"name":"DIDTokenString","schema":{"type":"string","title":"string_doaGddGA"}}],"result":{"name":"JWTToken","description":"JWT Token for the user to use as a session.","schema":{"type":"string","description":"JWT Token"}}},{"name":"auth_login_with_address","description":"Prompts the user to login by signing a claim with their address","params":[{"name":"address","description":"address the user claims to own","schema":{"pattern":"^0x[a-fA-F\\d]{40}$","title":"address","type":"string"}}],"result":{"name":"claim","description":"the claim for the user to sign","schema":{"title":"DIDTokenClaim","type":"object","properties":{"iat":{"title":"IssuedAt","description":"Issued at timestamp","type":"number"},"ext":{"title":"Expiration","description":"Expiration timestamp","type":"number"},"nbf":{"title":"NotValidBefore","description":"Not valid before timestamp","type":"number"},"iss":{"title":"Issuer","description":"Issuer - Decentralized Identifier: https://w3c-ccg.github.io/did-primer/#the-format-of-a-did","type":"string","format":"^did:"},"sub":{"title":"Subject","description":"Subject of the request, could be a nonce or uuid provided by the server.","type":"string","format":"^did:"},"aud":{"title":"Audience","description":"Audience","type":"string","format":"^did:"},"add":{"title":"Additional","description":"Optiona, additional signed data","type":"string"},"tid":{"title":"TokenID","description":"DID TokenID","type":"string"}}}},"examples":[{"name":"exampleAuthLoginWithAddress","params":[{"name":"address","value":"0xA4d1e7f6642Df0330890c70372F3516797f11f2C"}],"result":{"name":"result","value":{"iat":1599245366,"ext":1599255366,"iss":"did:ethr:0xA4d1e7f6642Df0330890c70372F3516797f11f2C","sub":"did:sig.tools:login","aud":"did:sig.tools:8066696d-7fb1-4a45-91a6-d43890c5c131","nbf":1599245366,"tid":"a1997f88-71ca-4d96-b220-df372b65b07b"}}}]},{"name":"auth_required_method","description":"a route that requires a user to have recieved a JWT token from the login method","params":[{"name":"JWTToken","schema":{"type":"string","title":"string_doaGddGA"}}],"result":{"name":"authRequiredMethodResult","description":"Data returned from the authentication required method","schema":{"type":"string","description":"random string data returned from auth required method"}}}],"components":{"schemas":{"DIDTokenClaim":{"title":"DIDTokenClaim","type":"object","properties":{"iat":{"title":"IssuedAt","description":"Issued at timestamp","type":"number"},"ext":{"title":"Expiration","description":"Expiration timestamp","type":"number"},"nbf":{"title":"NotValidBefore","description":"Not valid before timestamp","type":"number"},"iss":{"title":"Issuer","description":"Issuer - Decentralized Identifier: https://w3c-ccg.github.io/did-primer/#the-format-of-a-did","type":"string","format":"^did:"},"sub":{"title":"Subject","description":"Subject of the request, could be a nonce or uuid provided by the server.","type":"string","format":"^did:"},"aud":{"title":"Audience","description":"Audience","type":"string","format":"^did:"},"add":{"title":"Additional","description":"Optiona, additional signed data","type":"string"},"tid":{"title":"TokenID","description":"DID TokenID","type":"string"}}}}}} ;
   public transport: HTTPTransport | WebSocketTransport | PostMessageWindowTransport | PostMessageIframeTransport;
   private validator: MethodCallValidator;
   private timeout: number | undefined;
@@ -112,21 +112,21 @@ export class AuthenticationWithDID {
     }
     const {type, host, port, protocol} = options.transport;
     let path = options.transport.path || "";
-    if(path && path[0] !== "/") {
+    if (path && path[0] !== "/") {
         path = "/" + path;
     }
     switch (type) {
-      case 'http':
-      case 'https':
+      case "http":
+      case "https":
         this.transport = new HTTPTransport((protocol || type) + "://" + host + ":" + port + path);
         break;
-      case 'websocket':
+      case "websocket":
         this.transport = new WebSocketTransport((protocol || "ws://") + host + ":" + port + path);
         break;
-      case 'postmessageiframe':
+      case "postmessageiframe":
         this.transport = new PostMessageIframeTransport(protocol + "://" + host + ":" + port + path);
         break;
-      case 'postmessagewindow':
+      case "postmessagewindow":
         this.transport = new PostMessageWindowTransport(protocol + "://" + host + ":" + port + path);
         break;
       default:
@@ -199,6 +199,30 @@ export class AuthenticationWithDID {
     return this.rpc.stopBatch();
   }
 
+  /**
+   *
+   */
+  // tslint:disable-next-line:max-line-length
+  public login: Login = (...params) => {
+    return this.request("login", params);
+  }
+
+  /**
+   *
+   */
+  // tslint:disable-next-line:max-line-length
+  public auth_login_with_address: AuthLoginWithAddress = (...params) => {
+    return this.request("auth_login_with_address", params);
+  }
+
+  /**
+   *
+   */
+  // tslint:disable-next-line:max-line-length
+  public auth_required_method: AuthRequiredMethod = (...params) => {
+    return this.request("auth_required_method", params);
+  }
+
   private request(methodName: string, params: any[]): Promise<any> {
     const methodObject = _.find(AuthenticationWithDID.openrpcDocument.methods, ({name}) => name === methodName) as MethodObject;
     const notification = methodObject.result ? false : true;
@@ -219,30 +243,5 @@ export class AuthenticationWithDID {
     return this.rpc.request({method: methodName, params: rpcParams}, this.timeout);
   }
 
-  
-  /**
-   * 
-   */
-  // tslint:disable-next-line:max-line-length
-  public login: Login = (...params) => {
-    return this.request("login", params);
-  }
-  
-  /**
-   * 
-   */
-  // tslint:disable-next-line:max-line-length
-  public auth_login_with_address: AuthLoginWithAddress = (...params) => {
-    return this.request("auth_login_with_address", params);
-  }
-  
-  /**
-   * 
-   */
-  // tslint:disable-next-line:max-line-length
-  public auth_required_method: AuthRequiredMethod = (...params) => {
-    return this.request("auth_required_method", params);
-  }
-  
 }
 export default AuthenticationWithDID;

@@ -12,7 +12,7 @@ const auth_login_with_address: AuthLoginWithAddress = (address) => {
     sub: "did:sig.tools:login",
     aud: `did:sig.tools:${uuidv4()}`,
     nbf: Math.floor(Date.now() / 1000),
-    tid: uuidv4()
+    tid: uuidv4(),
   };
   addUserClaim(address, claim);
   return Promise.resolve(claim);

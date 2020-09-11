@@ -6,7 +6,7 @@ import { JSONRPCError } from "@open-rpc/server-js";
 const auth_required_method: AuthRequiredMethod = async (JWTToken) => {
   try {
     const decoded: any = jwt.verify(JWTToken, getSecret(), {
-      maxAge: "365d"
+      maxAge: "365d",
     });
     if (decoded) {
       return "logged in with: " + decoded.address;
