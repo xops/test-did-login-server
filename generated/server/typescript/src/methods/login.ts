@@ -1,5 +1,4 @@
 import { Login, DIDTokenClaim } from "../generated-typings";
-import EthCrypto from "eth-crypto";
 import * as ethUtil from "ethereumjs-util";
 import jwt from "jsonwebtoken";
 import { recoverPublicKeyFromSig } from "@etclabscore/signatory-core/build/src/lib/sign";
