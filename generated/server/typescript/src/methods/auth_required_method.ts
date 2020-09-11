@@ -2,7 +2,6 @@ import { AuthRequiredMethod } from "../generated-typings";
 import jwt from "jsonwebtoken";
 import { getSecret } from "../secret";
 import { JSONRPCError } from "@open-rpc/server-js";
-import { DH_CHECK_P_NOT_PRIME } from "constants";
 
 const auth_required_method: AuthRequiredMethod = async (JWTToken) => {
   try {

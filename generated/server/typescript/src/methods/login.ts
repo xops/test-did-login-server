@@ -8,7 +8,7 @@ import { getSecret } from "../secret";
 import { JSONRPCError } from "@open-rpc/server-js";
 import { getUserByAddress, ClaimPair, removeUserClaim } from "../users";
 
-const nbfBuffer = 10000;
+const nbfBuffer = 1000;
 
 const login: Login = async (DIDTokenString) => {
   try {
@@ -58,8 +58,17 @@ const login: Login = async (DIDTokenString) => {
         throw new JSONRPCError("Invalid Claim. Request a Claim First", 2500);
       }
 
+      console.log("Claim Successful:");
+
+      console.log(JSON.stringify({
+        address: add,
+        claim: parsedClaim
+      }, null, 4));
+
       // one time use
       removeUserClaim(add, parsedClaim);
+
+      console.log("Issuing 365d JWT Token for: ", add);
 
       const accessToken = jwt.sign({
         address: add,

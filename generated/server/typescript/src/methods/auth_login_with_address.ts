@@ -9,7 +9,7 @@ const auth_login_with_address: AuthLoginWithAddress = (address) => {
     iat: Math.floor(Date.now() / 1000),
     ext: Math.floor(Date.now() / 1000) + lifespan,
     iss: `did:ethr:${address}`,
-    sub: "login",
+    sub: "did:sig.tools:login",
     aud: `did:sig.tools:${uuidv4()}`,
     nbf: Math.floor(Date.now() / 1000),
     tid: uuidv4()
